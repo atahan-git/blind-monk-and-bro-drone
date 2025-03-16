@@ -167,6 +167,8 @@ MonoBehaviour:
     scenePath: Assets/Scenes/test chamber 1 - parkour.unity
   - sceneAsset: {fileID: 102900000, guid: 829a33d0863a38f4d961386b8b774bfb, type: 3}
     scenePath: Assets/Scenes/test chamber 2 - visions.unity
+  - sceneAsset: {fileID: 102900000, guid: b6b48126e9e74424c9b63cb1b431ae46, type: 3}
+    scenePath: Assets/Scenes/test chamber 3 - whatever.unity
   initialScene:
     sceneAsset: {fileID: 0}
     scenePath: 
