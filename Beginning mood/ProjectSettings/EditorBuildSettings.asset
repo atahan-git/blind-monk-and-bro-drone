@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/test chamber 1 - parkour.unity
     guid: f1f04c74dd9ecce459c0e997623d76f8
+  - enabled: 1
+    path: Assets/Scenes/test chamber 2 - visions.unity
+    guid: 829a33d0863a38f4d961386b8b774bfb
   m_configObjects: {}
