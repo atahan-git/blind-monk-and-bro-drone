@@ -29,7 +29,7 @@ public class ManipulatorBeam : MonoBehaviour, IPlayerTool {
 
     public bool Interact(InteractInput interactInput)
     {
-        if (selector.curObject == null || selector.curObject.gameObject == null) {
+        if (selector.curObject == null || selector.curObject.gameObject == null || !selector.curObject.GetComponent<Carryable>()) {
             StopHolding();
             selector.curObject = null;
         }
@@ -88,7 +88,7 @@ public class ManipulatorBeam : MonoBehaviour, IPlayerTool {
 
     void StopHolding() {
         isHolding = false;
-        if (selector.curObject != null) {
+        if (selector.curObject != null && !selector.curObject.GetComponent<Carryable>()) {
             selector.curObject.drag = selector.curObject.GetComponent<Carryable>().drag;
             selector.curObject.angularDrag = selector.curObject.GetComponent<Carryable>().angularDrag;
             selector.Deselect();
@@ -141,7 +141,7 @@ public class ManipulatorBeam : MonoBehaviour, IPlayerTool {
             
             curObject.AddForce(magnitude*20000*Time.deltaTime*pushVector);*/
             
-            if (selector.curObject == null || selector.curObject.gameObject == null) {
+            if (selector.curObject == null || selector.curObject.gameObject == null || !selector.curObject.GetComponent<Carryable>()) {
                 StopHolding();
                 return;
             }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -34,6 +35,11 @@ public class AlphaClippingController : MonoBehaviour
     {
         // Find all materials using the target shader on scene start
         FindTargetMaterials();
+        SetAlphaClipping(true);
+    }
+
+    private void OnApplicationQuit() {
+        EnableEverything();
     }
 
     /// <summary>
@@ -72,16 +78,25 @@ public class AlphaClippingController : MonoBehaviour
     /// <summary>
     /// Enables alpha clipping on all target materials.
     /// </summary>
-    [ContextMenu("Enable Alpha Clipping")]
+    [ContextMenu("Set Monk Mode")]
     public void EnableAlphaClipping()
     {
+        
         SetAlphaClipping(true);
+    }
+
+    [ContextMenu("Set Regular Edit Mode")]
+    public void EnableEverything() {
+        
+        SetAlphaClipping(false);
+        Shader.SetGlobalFloat("_BlindsightAlpha", 1);
+        Shader.SetGlobalFloat("_EditorExtraMultiplier", 1000);
     }
 
     /// <summary>
     /// Disables alpha clipping on all target materials.
     /// </summary>
-    [ContextMenu("Disable Alpha Clipping")]
+    [ContextMenu("Set Drone Mode")]
     public void DisableAlphaClipping()
     {
         SetAlphaClipping(false);
@@ -108,7 +123,10 @@ public class AlphaClippingController : MonoBehaviour
         {
             FindTargetMaterials();
         }
-        
+
+        Shader.SetGlobalFloat("_EditorExtraMultiplier", 1);
+        Shader.SetGlobalFloat("_BlindsightAlpha", enabled ? 1 : 0);
+
         foreach (Material material in targetMaterials)
         {
             // Set the alpha clip property if it exists

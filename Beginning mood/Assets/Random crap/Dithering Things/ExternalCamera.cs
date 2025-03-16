@@ -13,6 +13,14 @@ public class ExternalCamera : MonoBehaviour
     UniversalAdditionalCameraData cameraData;
     RenderTexture renderTexture;
 
+    public bool doRenderTexture = true;
+
+    private void Start() {
+        if (ditherTexture)
+        {
+            Shader.SetGlobalTexture(Dither, ditherTexture);
+        }
+    }
 
     void LateUpdate()
     {
@@ -24,10 +32,13 @@ public class ExternalCamera : MonoBehaviour
         }
         
         Shader.SetGlobalMatrix(ExternalCameraMatrix, camera.nonJitteredProjectionMatrix * camera.worldToCameraMatrix);
-        Shader.SetGlobalTexture(ExternalCameraDepth, camera.targetTexture);
-        if (ditherTexture)
-        {
-            Shader.SetGlobalTexture(Dither, ditherTexture);
+        if (doRenderTexture) {
+            camera.enabled = true;
+            Shader.SetGlobalTexture(ExternalCameraDepth, camera.targetTexture);
+        } else {
+            camera.enabled = false;
+            Shader.SetGlobalTexture(ExternalCameraDepth, null);
         }
+
     }
 }

@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 public class SceneLoader : MonoBehaviour {
     public static SceneLoader s;
 
@@ -12,48 +14,57 @@ public class SceneLoader : MonoBehaviour {
     [SerializeField]
     private SceneReference mainMenu;
     
-    public SceneReference playScene;
+    public SceneReference[] playScenes;
     
     [SerializeField]
     private SceneReference initialScene;
 
-    public bool isLevelStarted = false;
-    public bool isLevelFinished = false;
-
-    public bool isLevelInProgress {
-        get {
-            return isLevelStarted && !isLevelFinished;
-        }
-    }
-
-    public bool isProfileMenu = true;
     
     private void Awake() {
         if (s == null) {
             s = this;
             DontDestroyOnLoad(gameObject);
+            LoadEverything();
 
-            if (SceneManager.GetActiveScene().path == initialScene.ScenePath) {
+            /*if (SceneManager.GetActiveScene().path == initialScene.ScenePath) {
                 LoadScene(mainMenu);
             } else {
                 loadingScreen.SetActive(false);
-            }
+            }*/
         } else if(s!= this){
-            loadingScreen.SetActive(false);
+            //loadingScreen.SetActive(false);
             Destroy(gameObject);
         }
     }
 
+    void LoadEverything() {
+        if (SceneManager.sceneCount < playScenes.Length + 1) {
+            for (int i = 0; i < playScenes.Length; i++) {
+                Scene scene = SceneManager.GetSceneByPath(playScenes[i].ScenePath);
 
-    public GameObject loadingScreen;
-    public CanvasGroup canvasGroup;
+                if (!scene.isLoaded) {
+                    SceneManager.LoadSceneAsync(playScenes[i].ScenePath, LoadSceneMode.Additive);
+                }
+            }
+        }
+    }
 
+#if UNITY_EDITOR
+    [ContextMenu("Load Everything")]
+    void LoadEverythingEditor() {
+        if (SceneManager.sceneCount < playScenes.Length + 1) {
+            for (int i = 0; i < playScenes.Length; i++) {
+                EditorSceneManager.OpenScene(playScenes[i].ScenePath, OpenSceneMode.Additive);
+            }
+        }
+    }
+#endif
 
-    
-    public void LoadMenuScene() {
-        isLevelFinished = false;
-        isLevelStarted = false;
-        isProfileMenu = false;
+    public static float loadingProgress;
+    /*public GameObject loadingScreen;
+    public CanvasGroup canvasGroup;*/
+
+    /*public void LoadMenuScene() {
         LoadScene(mainMenu);
     }
 
@@ -97,5 +108,5 @@ public class SceneLoader : MonoBehaviour {
             yield return null;
         }
         canvasGroup.alpha = targetValue;
-    }
+    }*/
 }

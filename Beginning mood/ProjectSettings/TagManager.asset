@@ -18,8 +18,8 @@ TagManager:
   - stencilLayer1
   - DroneBot
   - WalkBot
-  - 
-  - 
+  - dont draw
+  - dont draw + only blindscan collision
   - 
   - 
   - 

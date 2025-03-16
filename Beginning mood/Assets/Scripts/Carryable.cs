@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HighlightPlus;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,5 +15,12 @@ public class Carryable : MonoBehaviour {
 		var rg = GetComponent<Rigidbody>();
 		drag = rg.drag;
 		angularDrag = rg.angularDrag;
+	}
+
+	public void DestroySelf() {
+		Destroy(GetComponent<HitSoundSource>());
+		Destroy(GetComponent<HighlightEffect>());
+		Destroy(GetComponent<Rigidbody>());
+		Destroy(this);
 	}
 }

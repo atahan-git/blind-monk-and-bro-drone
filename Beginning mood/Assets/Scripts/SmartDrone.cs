@@ -27,10 +27,20 @@ public class SmartDrone : MonoBehaviour, IControllableBody
         private bool beingControlled = false;
 
         public bool followPlayer = false;
+
+        public void ToggleFollowPlayerMode() {
+	        followPlayer = !followPlayer;
+	        GetComponent<SphereCollider>().enabled = !followPlayer;
+	        GetComponentInChildren<LookCamera>().transform.localRotation = Quaternion.identity;
+        }
+        
         public void EnterBody() {
 	        moveBackToPos = false;
 	        beingControlled = true;
 	        _audioPlayer.Play();
+	        followPlayer = false;
+
+	        GetComponent<SphereCollider>().enabled = true;
 
 	        if (AlphaClippingController.s != null) {
 		        AlphaClippingController.s.DisableAlphaClipping();
@@ -44,10 +54,11 @@ public class SmartDrone : MonoBehaviour, IControllableBody
         private void Update() {
 	        if (followPlayer && moveBackToPos && followTransform != null) {
 		        
-		        //transform.position = Vector3.MoveTowards(transform.position, followTransform.position, 5 * Time.deltaTime);
+		        transform.position = Vector3.Lerp(transform.position, followTransform.position, 5*Time.deltaTime);
+		        transform.position = Vector3.MoveTowards(transform.position, followTransform.position, 5 * Time.deltaTime);
 
-		        var dirVector = followTransform.position - transform.position;
-		        _rigidbody.velocity = (dirVector).normalized * Mathf.Min(dirVector.magnitude,5);
+		        /*var dirVector = followTransform.position - transform.position;
+		        _rigidbody.velocity = (dirVector).normalized * Mathf.Min(dirVector.magnitude,5);*/
 		        
 		        if (Vector3.Distance(transform.position, followTransform.position) > 0.01f) {
 			        _audioPlayer.Play();
@@ -70,17 +81,18 @@ public class SmartDrone : MonoBehaviour, IControllableBody
 
             var droneLookDirection = bodyInput.moveAxis.forward;
             droneLookDirection.y = 0;
-            
-            drone.transform.rotation = Quaternion.Lerp(drone.transform.rotation, Quaternion.LookRotation(droneLookDirection), 20 * Time.deltaTime);
-    
-            currentFlightVelocity = CalculateFlightVelocity(drone.transform, currentFlightVelocity, bodyInput.moveInput, bodyInput.moveAxis);
-            
-            _rigidbody.velocity = currentFlightVelocity;
-            
-            //drone.transform.position += currentFlightVelocity * Time.deltaTime;
-            
-            _audioPlayer.SetPitch(currentFlightVelocity.magnitude/10f + 1f);
-            
+
+            if (!followPlayer) {
+	            drone.transform.rotation = Quaternion.Lerp(drone.transform.rotation, Quaternion.LookRotation(droneLookDirection), 20 * Time.deltaTime);
+
+	            currentFlightVelocity = CalculateFlightVelocity(drone.transform, currentFlightVelocity, bodyInput.moveInput, bodyInput.moveAxis);
+
+	            _rigidbody.velocity = currentFlightVelocity;
+
+	            //drone.transform.position += currentFlightVelocity * Time.deltaTime;
+
+	            _audioPlayer.SetPitch(currentFlightVelocity.magnitude / 10f + 1f);
+            }
             /*drone.transform.position += followTransform.position-lastFollowPos;
             lastFollowPos = followTransform.position;*/
         }
@@ -145,6 +157,11 @@ public class SmartDrone : MonoBehaviour, IControllableBody
 	        moveBackToPos = true;
 	        currentFlightVelocity = Vector3.zero;
 	        beingControlled = false;
+	        
+	        GetComponent<SphereCollider>().enabled = !followPlayer;
+	        if (followPlayer) {
+		        GetComponentInChildren<LookCamera>().transform.localRotation = Quaternion.identity;
+	        }
 
 	        if (AlphaClippingController.s != null) {
 		        AlphaClippingController.s.EnableAlphaClipping();

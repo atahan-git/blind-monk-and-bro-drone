@@ -6,7 +6,7 @@ public class Tool_EscapeBody : MonoBehaviour, IPlayerTool {
     public EscapeableBody myBody;
 
     public bool Interact(InteractInput interactInput) {
-        if (interactInput.escape || interactInput.droneKey) {
+        if (interactInput.droneKey) {
             var newBody = myBody.EscapingIntoBody();
             interactInput.actingController.AssumeBody(newBody);
             return true;

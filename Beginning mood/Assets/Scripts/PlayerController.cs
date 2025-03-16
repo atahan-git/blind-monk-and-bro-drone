@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour {
 
         bodyInput.jump = Input.GetButtonDown("Jump");
         bodyInput.climb = Input.GetButton("Climb");
-        
+
 
         if (myCurrentBody != null) {
             myCurrentBody.BodyUpdate(bodyInput);
@@ -69,6 +69,10 @@ public class PlayerController : MonoBehaviour {
         interactInput.numInput = numInput;
         interactInput.escape = Input.GetKeyDown(KeyCode.Escape);
         interactInput.droneKey = Input.GetKeyDown(KeyCode.F);
+        interactInput.lightKey = Input.GetKeyDown(KeyCode.L);
+        interactInput.toggleDroneFollow = Input.GetKeyDown(KeyCode.Q);
+        interactInput.toggleDroneVision = Input.GetKeyDown(KeyCode.T);
+        interactInput.setDroneLookTarget = Input.GetKeyDown(KeyCode.G);
         
         
         myCurrentInventory.Interact(interactInput);
@@ -153,6 +157,10 @@ public struct InteractInput {
     public int numInput;
     public bool escape;
     public bool droneKey;
+    public bool lightKey;
+    public bool toggleDroneVision;
+    public bool toggleDroneFollow;
+    public bool setDroneLookTarget;
 }
 
 

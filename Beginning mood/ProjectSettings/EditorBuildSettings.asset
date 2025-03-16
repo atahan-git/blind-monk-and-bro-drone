@@ -6,9 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Train Scene.unity
-    guid: 2113998ec7144844eb75c7976404e66d
-  - enabled: 0
-    path: Assets/Scenes/space corals.unity
-    guid: 5daade425eeb8404e885c02d7882bb38
+    path: Assets/Scenes/FIRST SCENE TO OPEN.unity
+    guid: f80da0ef94c3b8249bd427435ddb3cb4
+  - enabled: 1
+    path: Assets/Scenes/Player and Global Stuff.unity
+    guid: 48b013ca217a3aa4d8e7520217a3fb72
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 123f6a8890f5884428da4a95bc2bc512
+  - enabled: 1
+    path: Assets/Scenes/test chamber 1 - parkour.unity
+    guid: f1f04c74dd9ecce459c0e997623d76f8
   m_configObjects: {}
