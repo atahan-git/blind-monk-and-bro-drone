@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/test chamber 2 - visions.unity
     guid: 829a33d0863a38f4d961386b8b774bfb
+  - enabled: 1
+    path: Assets/Scenes/test chamber 3 - whatever.unity
+    guid: b6b48126e9e74424c9b63cb1b431ae46
   m_configObjects: {}
