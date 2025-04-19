@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/test chamber 3 - whatever.unity
     guid: b6b48126e9e74424c9b63cb1b431ae46
+  - enabled: 1
+    path: Assets/Scenes/Entry Way.unity
+    guid: 0b9428bef8428ca4da48c6795806fb76
   m_configObjects: {}
